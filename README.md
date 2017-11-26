@@ -1,4 +1,4 @@
-## SkipNet: Learning Dynamic Routing in Convolutional Networks
+# SkipNet: Learning Dynamic Routing in Convolutional Networks
 
 This repository contains the code for [SkipNet paper]() under review at CVPR 2018.
 
