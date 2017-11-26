@@ -10,6 +10,8 @@ different levels of parameter sharing in the paper.  The model illustrations are
   <img src="figs/skipnet_rnn_structure.jpg" width="400" alt="SkipNet with recurrent gates"  /> 
 </p>
 
+For other details, please refer to the [paper](). 
+
 
 ## SkipNet on CIFAR datasets
 All the model configuration and training/evaluation code are available under `./cifar`. If you want to train your own 
