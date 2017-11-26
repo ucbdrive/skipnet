@@ -2,8 +2,8 @@
 
 This repository contains the code for [SkipNet paper]() under review at CVPR 2018.
 
-SkipNet learns to route images through a sub-set of layers on a per-input basis. Challenging images are routed through more
-layers than easy images. We talk about two model designs with either feedforward gates and reccurent gates which enables 
+SkipNet learns to route images through a subset of layers on a per-input basis. Challenging images are routed through more
+layers than easy images. We talk about two model designs with both feedforward gates and reccurent gates which enable 
 different levels of parameter sharing in the paper.  The model illustrations are as follows.
 <p float="left">
   <img src="figs/skipnet_ff_structure.jpg" width="400" alt="SkipNet with feedforward gates" />
