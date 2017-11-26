@@ -15,7 +15,7 @@ For other details, please refer to the [paper]().
 
 ## SkipNet on CIFAR datasets
 All the model configuration and training/evaluation code are available under `./cifar`. If you want to train your own 
-SkipNet, you can also follow the [document](cifar/README.md) under the same folder. 
+SkipNet, you can follow the [document](cifar/README.md) under the same folder. 
 
 ## SkipNet on ImageNet datasets 
 TBD
