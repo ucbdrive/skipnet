@@ -16,12 +16,12 @@ We use the model config name to specify the model arch when training.
 
 For naming, 
 
-- `cifar{10,100}\_resnet\_{#layers}`: original ResNets without routing modules. For example, `cifar10_resnet_38` means ResNet-38
+- `cifar{10,100}_resnet_{#layers}`: original ResNets without routing modules. For example, `cifar10_resnet_38` means ResNet-38
 on the CIFAR-10 dataset.
-- `cifar{10,100}\_feedforward\_{#layers}`: SkipNet+SP with feedforward gates. 
-- `cifar{10,100}\_rnn\_gate\_{#layers}`: SkipNet+SP with recurrent gates.
-- `cifar{10,100}\_feedforward\_rl\_{#layers}`: SkipNet+HRL+SP with feedforward gates
-- `cifar{10,100}\_rnn\_gate\_rl\_{#layers}`: SkipNet+HRL+SP with recurrent gates.
+- `cifar{10,100}_feedforward_{#layers}`: SkipNet+SP with feedforward gates. 
+- `cifar{10,100}_rnn_gate_{#layers}`: SkipNet+SP with recurrent gates.
+- `cifar{10,100}_feedforward_rl_{#layers}`: SkipNet+HRL+SP with feedforward gates
+- `cifar{10,100}_rnn_gate_rl_{#layers}`: SkipNet+HRL+SP with recurrent gates.
 
 ### Data Preparation
 `data.py` includes the data preparation for the CIFAR-10 and CIFAR-100 datasets. 
