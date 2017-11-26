@@ -62,7 +62,7 @@ proposed in the paper, we use the trained SkipNet+SP as initialization.
 
 To train the model, run 
 ```
-python3 train_rl.py train [ARCH] -d [DATASET] --resume [SP-CHECKPOINT]
+python3 train_rl.py train [ARCH] -d [DATASET] --resume [SP-CHECKPOINT] --alpha [ALPHA]
 ```
 
 To test the model, run 
