@@ -18,7 +18,8 @@ All the model configuration and training/evaluation code are available under `./
 SkipNet, you can follow the [document](cifar/README.md) under the same folder. 
 
 ## SkipNet on ImageNet datasets 
-TBD
+Similarly, the model configuration and train/evaluation code are available under `./imagenet`. Detailed instructions can
+be found in the [document](imagenet/README.md) under the same folder. 
 
 
 
