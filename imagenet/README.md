@@ -1,5 +1,5 @@
 
-# Training SkipNet on ImageNet 
+# Training SkipNet on the ImageNet dataset
 
 This folder contains the training code for original ResNet, SkipNet+SP and SkipNet+HRL+SP. 
 
