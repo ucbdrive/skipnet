@@ -1,6 +1,6 @@
 # SkipNet: Learning Dynamic Routing in Convolutional Networks
 
-This repository contains the code for [SkipNet paper](https://arxiv.org/pdf/1711.09485.pdf) under review at CVPR 2018.
+This repository contains the code for [SkipNet](https://arxiv.org/pdf/1711.09485.pdf).
 
 SkipNet learns to route images through a subset of layers on a per-input basis. Challenging images are routed through more
 layers than easy images. We talk about two model designs with both feedforward gates and reccurent gates which enable 
