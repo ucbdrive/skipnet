@@ -399,7 +399,7 @@ class RecurrentGatedResNet(nn.Module):
                 x = getattr(self, 'group{}_layer{}'.format(g+1, i))(x)
                 prev = x = mask.expand_as(x)*x + (1-mask).expand_as(prev)*prev
                 gate_feature = getattr(self, 'group{}_gate{}'.format(g+1, i))(x)
-                mask, grob = self.control(gate_feature)
+                mask, gprob = self.control(gate_feature)
                 if not (g == 3 and i == (self.num_layers[3]-1)):
                     # not add the last mask to masks
                     gprobs.append(gprob)
