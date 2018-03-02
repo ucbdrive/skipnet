@@ -8,6 +8,7 @@ import torch.utils.model_zoo as model_zoo
 import torch.autograd as autograd
 from torch.autograd.variable import Variable
 from threading import Lock
+from torch.distributions import Categorical
 
 global_lock = Lock()
 
@@ -499,7 +500,9 @@ class RNNGatePolicy(nn.Module):
 
         # do action selection in the forward pass
         if self.training:
-            action = bi_prob.multinomial()
+            # action = bi_prob.multinomial()
+            dist = Categorical(bi_prob)
+            action = dist.sample()
         else:
             action = (prob > 0.5).float()
         action_reshape = action.view(action.size(0), 1, 1, 1).float()
@@ -605,6 +608,7 @@ class RecurrentGatedRLResNet(nn.Module):
         masks = []
         gprobs = []
         actions = []
+        dists = []
 
         # must pass through the first layer in first group
         x = getattr(self, 'group1_layer0')(x)
@@ -639,13 +643,16 @@ class RecurrentGatedRLResNet(nn.Module):
 
         if reinforce:
             softmax = self.softmax(x)
-            action = softmax.multinomial()
+            # action = softmax.multinomial()
+            dist = Categorical(softmax)
+            action = dist.sample()
             actions.append(action)
 
         with global_lock:
             self.saved_actions[current_device] = actions
             self.saved_outputs[current_device] = x
             self.saved_targets[current_device] = target_var
+            self.saved_dists[current_device] = dists
 
         return x, masks, gprobs, self.control.hidden
 

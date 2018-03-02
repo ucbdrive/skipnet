@@ -1,5 +1,5 @@
 """
-Training file for HRL stage. Support Pytorch 2.0 and multiple GPUs.
+Training file for HRL stage. Support Pytorch 3.0 and multiple GPUs.
 """
 
 from __future__ import print_function
@@ -23,6 +23,7 @@ import logging
 import json
 import itertools
 import models
+import sys
 
 
 model_names = sorted(name for name in models.__dict__
@@ -89,6 +90,7 @@ def main():
     args = parse_args()
     more_config(args)
 
+    logging.info('CMD: '+' '.join(sys.argv))
     if args.cmd == 'train':
         logging.info('start training {}'.format(args.arch))
         run_training(args)
@@ -229,6 +231,7 @@ def train(args, train_loader, model, criterion,
         # a walk around to Pytorch's gather function
         actions = model.module.saved_actions
         rewards = {k: [] for k in range(len(actions))}
+        dists = model.module.saved_dists
         inputs = model.module.saved_outputs
         targets = model.module.saved_targets
 
@@ -261,11 +264,14 @@ def train(args, train_loader, model, criterion,
         rl_losses = []
         for idx in range(len(actions)):
             for idy in range(len(actions[0])):
-                actions[idx][idy].reinforce(args.rl_weight *
-                                            cum_rewards[idx][idy].data)
+                # actions[idx][idy].reinforce(args.rl_weight *
+                #                             cum_rewards[idx][idy].data)
+                _loss = (- dists[idx][idy].log_prob(actions[idx][idy])\
+                        * (cum_rewards[idx][idy] * args.rl_weight))
+                rl_losses.append(_loss.mean())
 
-        for idx in range(len(actions)):
-            rl_losses += actions[idx]
+        # for idx in range(len(actions)):
+        #     rl_losses += actions[idx]
 
         # back-propagate the hybrid loss
         optimizer.zero_grad()
@@ -415,11 +421,11 @@ def validate(args, val_loader, model, criterion, epoch):
 
             skip_summaries = []
             for idx in range(skip_ratios.len):
-                logging.info(
-                    "block {:03d}  skipping = {:.3f}({:.3f})".format(
-                        idx,
-                        skip_ratios.val[idx],
-                        skip_ratios.avg[idx]))
+                # logging.info(
+                #     "block {:03d}  skipping = {:.3f}({:.3f})".format(
+                #         idx,
+                #         skip_ratios.val[idx],
+                #         skip_ratios.avg[idx]))
                 skip_summaries.append(1 - skip_ratios.avg[idx])
             cp = ((sum(skip_summaries) + 1) / (len(skip_summaries) + 1)) * 100
             logging.info('*** Computation Percentage: {:.3f} %'.format(cp))
@@ -435,6 +441,8 @@ def validate(args, val_loader, model, criterion, epoch):
                 idx,
                 skip_ratios.avg[idx]))
         skip_summaries.append(1 - skip_ratios.avg[idx])
+
+    # always keep the first block
     cp = ((sum(skip_summaries) + 1) / (len(skip_summaries) + 1)) * 100
     logging.info('* Total Computation Percentage: {:.3f} %'.format(cp))
 
