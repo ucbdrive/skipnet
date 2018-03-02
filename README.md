@@ -13,7 +13,7 @@ different levels of parameter sharing in the paper.  The model illustrations are
 For other details, please refer to the [paper](https://arxiv.org/pdf/1711.09485.pdf). 
 
 ## Updates 
-
+* [March 2, 2018] add trained model checkpoints on the CIFAR-10 dataset
 * [March 1, 2018] upgrade ImageNet code to support Pytorch 3.0; add trained model checkpoints for ResNet-101 and ResNet-50
 
 
