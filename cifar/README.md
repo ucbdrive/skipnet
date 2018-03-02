@@ -48,7 +48,7 @@ python3 train_rl.py test cifar10_rnn_gate_rl_110 --resume resnet-110-rnn-cifar10
 The expected results are 
 
 |Model | Train Scheme | Top 1 Accuracy (%) | Computation Percentage (%)| FLOPs reduced % |
-|-----------| :--------: | :------------------:| :---------------------:| : ----- :|
+|-----------| :--------: | :------------------:| :---------------------:| :-----:|
 | ResNet-38  | HRL |  92.750 | 70.272 | 29.728 |
 | ResNet-74  | HRL |  92.770 | 52.340 | 47.660 |
 | ResNet-110 | HRL |  93.300 | 49.526 | 50.474 |
