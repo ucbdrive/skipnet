@@ -1,6 +1,6 @@
 # SkipNet: Learning Dynamic Routing in Convolutional Networks
 
-This repository contains the code for [SkipNet](https://arxiv.org/pdf/1711.09485.pdf).
+This repository contains the code and trained models for [SkipNet](https://arxiv.org/pdf/1711.09485.pdf).
 
 SkipNet learns to route images through a subset of layers on a per-input basis. Challenging images are routed through more
 layers than easy images. We talk about two model designs with both feedforward gates and reccurent gates which enable 
@@ -11,6 +11,10 @@ different levels of parameter sharing in the paper.  The model illustrations are
 </p>
 
 For other details, please refer to the [paper](https://arxiv.org/pdf/1711.09485.pdf). 
+
+## Updates 
+
+* [March 1, 2018] upgrade ImageNet code to support Pytorch 3.0; add trained model checkpoints for ResNet-101 and ResNet-50
 
 
 ## SkipNet on CIFAR datasets
