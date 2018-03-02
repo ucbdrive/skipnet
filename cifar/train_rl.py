@@ -28,7 +28,7 @@ class BatchCrossEntropy(nn.Module):
         super(BatchCrossEntropy, self).__init__()
 
     def forward(self, x, target):
-        logp = F.log_softmax(x)
+        logp = F.log_softmax(x, dim=1)
         target = target.view(-1,1)
         output = - logp.gather(1, target)
         return output
@@ -217,8 +217,11 @@ def run_training(args):
             cum_rewards.insert(0, R)
 
         # apply REINFORCE to each gate
-        for action, R in zip(gate_saved_actions, cum_rewards):
-            action.reinforce(args.rl_weight * R)
+        # Pytorch 2.0 version. `reinforce` function got removed in Pytorch 3.0
+        # for action, R in zip(gate_saved_actions, cum_rewards):
+        #     action.reinforce(args.rl_weight * R)
+
+
 
         total_loss = total_criterion(output, target_var)
 
@@ -336,12 +339,12 @@ def validate(args, test_loader, model):
 
     skip_summaries = []
     for idx in range(skip_ratios.len):
-        logging.info(
-            "{} layer skipping = {:.3f}".format(
-                idx,
-                skip_ratios.avg[idx],
-            )
-        )
+        # logging.info(
+        #     "{} layer skipping = {:.3f}".format(
+        #         idx,
+        #         skip_ratios.avg[idx],
+        #     )
+        # )
         skip_summaries.append(1-skip_ratios.avg[idx])
     # compute `computational percentage`
     cp = ((sum(skip_summaries) + 1) / (len(skip_summaries) + 1)) * 100

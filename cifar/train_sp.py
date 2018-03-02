@@ -278,12 +278,12 @@ def validate(args, test_loader, model, criterion):
 
     skip_summaries = []
     for idx in range(skip_ratios.len):
-        logging.info(
-            "{} layer skipping = {:.3f}".format(
-                idx,
-                skip_ratios.avg[idx],
-            )
-        )
+        # logging.info(
+        #     "{} layer skipping = {:.3f}".format(
+        #         idx,
+        #         skip_ratios.avg[idx],
+        #     )
+        # )
         skip_summaries.append(1-skip_ratios.avg[idx])
     # compute `computational percentage`
     cp = ((sum(skip_summaries) + 1) / (len(skip_summaries) + 1)) * 100

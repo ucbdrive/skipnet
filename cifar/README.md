@@ -1,6 +1,6 @@
 # Training SkipNet on CIFAR-10 and CIFAR-100 
 
-This folder contains the training code for original ResNet, SkipNet+SP and SkipNet+HRL+SP. 
+This folder contains the training code and trained models for original ResNet, SkipNet+SP and SkipNet+HRL+SP. 
 
 ## Prerequisite 
 This code requires `Pytorch 2.0` and for the RL training, we only support single GPU (multi-GPU implementation will be 
@@ -25,6 +25,46 @@ on the CIFAR-10 dataset.
 
 ### Data Preparation
 `data.py` includes the data preparation for the CIFAR-10 and CIFAR-100 datasets. 
+
+
+## Demo
+
+We provide model checkpoints trained with supervised pretraining (SP) and 
+hybrid reinforcement learning (HRL) for ResNet-38, ResNet-74, ResNet-110 
+with recurrent gate design on CIFAR-10 as follows.
+
+* [ResNet-38-SP](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-38-rnn-sp-cifar10.pth.tar) and [ResNet-38-HRL](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-38-rnn-cifar10.pth.tar)
+* [ResNet-74-SP](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-74-rnn-sp-cifar10.pth.tar) and [ResNet-74-HRL](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-74-rnn-cifar10.pth.tar)
+* [ResNet-110-SP](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-110-rnn-sp-cifar10.pth.tar) and [ResNet-110-HRL](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-110-rnn-cifar10.pth.tar)
+
+To evaluate the trained models,  you can download the model checkpoints and 
+run the following commands. Take ResNet-110 as an example, for supervised only, 
+
+```angular2html
+python3 train_sp.py test cifar10_rnn_gate_110 --resume resnet-110-rnn-sp-cifar10.pth.tar
+```
+
+For hybrid reinforcement learning,
+
+```angular2html
+python3 train_rl.py test cifar10_rnn_gate_rl_110 --resume resnet-110-rnn-cifar10.pth.tar
+```
+
+The expected results are 
+
+
+| Model | Train Scheme | Top 1 Accuracy | Computation Percentage |
+
+| --- | :---: | :---: |
+
+| ResNet-38 | SP |   |    |
+| ResNet-38 | HRL |    |  |
+
+
+
+
+
+
 
 ## Training 
 
