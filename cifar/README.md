@@ -31,20 +31,15 @@ on the CIFAR-10 dataset.
 
 We provide model checkpoints trained with supervised pretraining (SP) and 
 hybrid reinforcement learning (HRL) for ResNet-38, ResNet-74, ResNet-110 
-with recurrent gate design on CIFAR-10 as follows.
+with recurrent gate design on CIFAR-10 as follows. The checkpoints trained 
+with SP are used as initialization for HRL stage. 
 
 * [ResNet-38-SP](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-38-rnn-sp-cifar10.pth.tar) and [ResNet-38-HRL](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-38-rnn-cifar10.pth.tar)
 * [ResNet-74-SP](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-74-rnn-sp-cifar10.pth.tar) and [ResNet-74-HRL](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-74-rnn-cifar10.pth.tar)
 * [ResNet-110-SP](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-110-rnn-sp-cifar10.pth.tar) and [ResNet-110-HRL](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-110-rnn-cifar10.pth.tar)
 
 To evaluate the trained models,  you can download the model checkpoints and 
-run the following commands. Take ResNet-110 as an example, for supervised only, 
-
-```angular2html
-python3 train_sp.py test cifar10_rnn_gate_110 --resume resnet-110-rnn-sp-cifar10.pth.tar
-```
-
-For hybrid reinforcement learning,
+run the following commands. Take ResNet-110 as an example, 
 
 ```angular2html
 python3 train_rl.py test cifar10_rnn_gate_rl_110 --resume resnet-110-rnn-cifar10.pth.tar
@@ -52,17 +47,11 @@ python3 train_rl.py test cifar10_rnn_gate_rl_110 --resume resnet-110-rnn-cifar10
 
 The expected results are 
 
-
-| Model | Train Scheme | Top 1 Accuracy | Computation Percentage |
-
-| --- | :---: | :---: |
-
-| ResNet-38 | SP |   |    |
-| ResNet-38 | HRL |    |  |
-
-
-
-
+|Model | Train Scheme | Top 1 Accuracy (%) | Computation Percentage (%)|
+|-----------| :--------: | :------------------:| :---------------------:|
+| ResNet-38  | HRL |  92.750 | 70.272 |
+| ResNet-74  | HRL |  92.770 | 52.340 |
+| ResNet-110 | HRL |  93.300 | 49.526 |
 
 
 
