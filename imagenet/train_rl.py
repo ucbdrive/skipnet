@@ -436,10 +436,10 @@ def validate(args, val_loader, model, criterion, epoch):
 
     skip_summaries = []
     for idx in range(skip_ratios.len):
-        logging.info(
-            "block {:03d} skipping = {:.3f}".format(
-                idx,
-                skip_ratios.avg[idx]))
+        # logging.info(
+        #     "block {:03d} skipping = {:.3f}".format(
+        #         idx,
+        #         skip_ratios.avg[idx]))
         skip_summaries.append(1 - skip_ratios.avg[idx])
 
     # always keep the first block

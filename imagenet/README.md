@@ -4,11 +4,12 @@
 This folder contains the training code for original ResNet, SkipNet+SP and SkipNet+HRL+SP. 
 
 ## Prerequisite 
-This code requires `Pytorch 2.0` and we support training with multiple GPUs. The requirement is the batch size is dividable
+We support training with multiple GPUs with Pytorch 3.0. The requirement is the batch size is dividable
 by the number of GPU used.
 
 To install Pytorch, please refer to the docs at the [Pytorch website](http://pytorch.org/).
 
+To prepare ImageNet dataset, please follow this [link](https://github.com/facebook/fb.resnet.torch/blob/master/INSTALL.md#download-the-imagenet-dataset).
 
 ## Preparation
 ### Model Architecture
@@ -21,6 +22,20 @@ For naming,
 - `imagenet_rnn_gate_{#layers}`: SkipNet+SP with recurrent gates.
 - `imagenet_rnn_gate_rl_{#layers}`: SkipNet+HRL+SP with recurrent gates.
 
+
+## Demo 
+We provide trained model checkpoint on ResNet-101 at [here](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-101-rnn-imagenet.pth.tar). 
+To run this demo, you can first download the checkpoint and then run the following 
+command
+
+```
+python3 train_rl.py test imagenet_rnn_gate_rl_101 -d [DATASET] --resume resnet-101-rnn-imagenet.pth.tar
+```
+
+The expected results are 
+```
+Prec@1=76.942%,  Prec@5=93.420%,  Computation Percentage = 70.058%, FLOPs reduction = 29.942%
+```
 
 ## Training 
 
