@@ -40,7 +40,7 @@ def parse_args():
                              ' (default: imagenet_rnn_gate_34)')
     parser.add_argument('--gate-type', default='rnn',
                         choices=['rnn'], help='gate type')
-    parser.add_argument('--data', default='/home/ubuntu/imagenet/',
+    parser.add_argument('--data', '-d', default='/home/ubuntu/imagenet/',
                         type=str, help='path to the imagenet data')
     parser.add_argument('--workers', default=8, type=int, metavar='N',
                         help='number of data loading workers (default: 8)')
@@ -248,11 +248,11 @@ def train(args, train_loader, model, criterion, optimizer, epoch):
 
             skip_summaries = []
             for idx in range(skip_ratios.len):
-                logging.info(
-                    "block {:03d} skipping = {:.3f}({:.3f})".format(
-                        idx,
-                        skip_ratios.val[idx],
-                        skip_ratios.avg[idx]))
+                # logging.info(
+                #     "block {:03d} skipping = {:.3f}({:.3f})".format(
+                #         idx,
+                #         skip_ratios.val[idx],
+                #         skip_ratios.avg[idx]))
                 skip_summaries.append(1 - skip_ratios.avg[idx])
             cp = ((sum(skip_summaries) + 1) / (len(skip_summaries) + 1)) * 100
             logging.info('*** Computation Percentage: {:.3f} %'.format(cp))
@@ -350,11 +350,11 @@ def validate(args, val_loader, model, criterion, epoch):
 
             skip_summaries = []
             for idx in range(skip_ratios.len):
-                logging.info(
-                    "block {:03d}  skipping = {:.3f}({:.3f})".format(
-                        idx,
-                        skip_ratios.val[idx],
-                        skip_ratios.avg[idx]))
+                # logging.info(
+                #     "block {:03d}  skipping = {:.3f}({:.3f})".format(
+                #         idx,
+                #         skip_ratios.val[idx],
+                #         skip_ratios.avg[idx]))
                 skip_summaries.append(1 - skip_ratios.avg[idx])
             cp = ((sum(skip_summaries) + 1) / (len(skip_summaries) + 1)) * 100
             logging.info('*** Computation Percentage: {:.3f} %'.format(cp))
@@ -365,10 +365,10 @@ def validate(args, val_loader, model, criterion, epoch):
 
     skip_summaries = []
     for idx in range(skip_ratios.len):
-        logging.info(
-            "block {:03d} skipping = {:.3f}".format(
-                idx,
-                skip_ratios.avg[idx]))
+        # logging.info(
+        #     "block {:03d} skipping = {:.3f}".format(
+        #         idx,
+        #         skip_ratios.avg[idx]))
         skip_summaries.append(1 - skip_ratios.avg[idx])
     cp = ((sum(skip_summaries) + 1) / (len(skip_summaries) + 1)) * 100
     logging.info('* Total Computation Percentage: {:.3f} %'.format(cp))

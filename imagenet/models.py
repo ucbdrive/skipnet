@@ -504,9 +504,10 @@ class RNNGatePolicy(nn.Module):
             dist = Categorical(bi_prob)
             action = dist.sample()
         else:
+            dist = None
             action = (prob > 0.5).float()
         action_reshape = action.view(action.size(0), 1, 1, 1).float()
-        return action_reshape, prob, action
+        return action_reshape, prob, action, dist
 
 
 # ================================
@@ -615,13 +616,14 @@ class RecurrentGatedRLResNet(nn.Module):
         # gate takes the output of the current layer
         gate_feature = getattr(self, 'group1_gate0')(x)
 
-        mask, gprob, action = self.control(gate_feature)
+        mask, gprob, action, dist = self.control(gate_feature)
         gprobs.append(gprob)
         masks.append(mask.squeeze())
         prev = x  # input of next layer
 
         current_device = torch.cuda.current_device()
         actions.append(action)
+        dists.append(dist)
 
         for g in range(4):
             for i in range(0 + int(g == 0), self.num_layers[g]):
@@ -632,10 +634,11 @@ class RecurrentGatedRLResNet(nn.Module):
                 if not (g == 3 and (i == self.num_layers[g] - 1)):
                     gate_feature = getattr(self,
                                            'group{}_gate{}'.format(g+1, i))(x)
-                    mask, gprob, action = self.control(gate_feature)
+                    mask, gprob, action, dist = self.control(gate_feature)
                     gprobs.append(gprob)
                     masks.append(mask.squeeze())
                     actions.append(action)
+                    dists.append(dist)
 
         x = self.avgpool(x)
         x = x.view(x.size(0), -1)
@@ -647,6 +650,7 @@ class RecurrentGatedRLResNet(nn.Module):
             dist = Categorical(softmax)
             action = dist.sample()
             actions.append(action)
+            dists.append(dist)
 
         with global_lock:
             self.saved_actions[current_device] = actions

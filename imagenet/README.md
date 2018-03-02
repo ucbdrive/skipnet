@@ -24,17 +24,32 @@ For naming,
 
 
 ## Demo 
-We provide trained model checkpoint on ResNet-101 at [here](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-101-rnn-imagenet.pth.tar). 
-To run this demo, you can first download the checkpoint and then run the following 
-command
+We provide model checkpoints trained with [SP](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-101-rnn-sp-imagenet.pth.tar) and [HRL+SP](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-101-rnn-imagenet.pth.tar) 
+on ResNet-101. 
 
+To run this demo, you can first download the checkpoints and then run the following 
+commands.
+
+For just supervised pretraining (SP), run
+```
+python3 train_sp.py test imagenet_rnn_gate_101 -d [DATASET] --resume resnet-101-rnn-sp-imagenet.pth.tar
+```
+The expected results are 
+```
+Prec@1=77.486%, Prec@5 93.620%, Computation Percentage=84.976%, FLOPs reduction=15.024%
+```
+
+We also provide the trained checkpoint of ResNet-50 with supervised pretraining [here](http://people.eecs.berkeley.edu/~xinw/skipnet/resnet-50-rnn-sp-imagenet.pth.tar).
+These checkpoints were used as initialization for training ResNet with hybrid reinforcement learning.
+
+For hybrid reinforcement learning (HRL), run
 ```
 python3 train_rl.py test imagenet_rnn_gate_rl_101 -d [DATASET] --resume resnet-101-rnn-imagenet.pth.tar
 ```
 
 The expected results are 
 ```
-Prec@1=76.942%,  Prec@5=93.420%,  Computation Percentage = 70.058%, FLOPs reduction = 29.942%
+Prec@1=76.942%,  Prec@5=93.420%,  Computation Percentage=70.058%, FLOPs reduction=29.942%
 ```
 
 ## Training 
