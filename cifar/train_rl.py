@@ -17,6 +17,7 @@ import logging
 
 import models
 from data import *
+import pdb
 
 model_names = sorted(name for name in models.__dict__
                      if name.islower() and not name.startswith('__')
@@ -28,7 +29,7 @@ class BatchCrossEntropy(nn.Module):
         super(BatchCrossEntropy, self).__init__()
 
     def forward(self, x, target):
-        logp = F.log_softmax(x, dim=1)
+        logp = F.log_softmax(x)
         target = target.view(-1,1)
         output = - logp.gather(1, target)
         return output
@@ -131,8 +132,12 @@ def run_training(args):
     model = torch.nn.DataParallel(model).cuda()
 
     # extract gate actions and rewards
-    gate_saved_actions = model.module.saved_actions
-    gate_rewards = model.module.rewards
+    if args.gate_type == 'ff':
+        gate_saved_actions = model.module.saved_actions
+        gate_rewards = model.module.rewards
+    elif args.gate_type == 'rnn':
+        gate_saved_actions = model.module.control.saved_actions
+        gate_rewards = model.module.control.rewards
 
     best_prec1 = 0
 
@@ -208,7 +213,8 @@ def run_training(args):
         # intermediate rewards for each gate
         for act in gate_saved_actions:
             gate_rewards.append((1 - act.float()).data * normalized_alpha)
-
+        
+        # pdb.set_trace()
         # collect cumulative future rewards
         R = - pred_loss.data
         cum_rewards = []
@@ -218,9 +224,8 @@ def run_training(args):
 
         # apply REINFORCE to each gate
         # Pytorch 2.0 version. `reinforce` function got removed in Pytorch 3.0
-        # for action, R in zip(gate_saved_actions, cum_rewards):
-        #     action.reinforce(args.rl_weight * R)
-
+        for action, R in zip(gate_saved_actions, cum_rewards):
+             action.reinforce(args.rl_weight * R)
 
 
         total_loss = total_criterion(output, target_var)
