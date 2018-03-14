@@ -91,12 +91,12 @@ proposed in the paper, we use the trained SkipNet+SP as initialization.
 
 To train the model, run 
 ```
-python3 train_rl.py train [ARCH] -d [DATASET] --resume [SP-CHECKPOINT] --alpha [ALPHA]
+python3 train_rl.py train [ARCH] -d [DATASET] --resume [SP-CHECKPOINT] --alpha [ALPHA] --gate-type [GATE-TYPE]
 ```
 
 To test the model, run 
 ```
-python3 train_rl.py test [ARCH] -d [DATASET] --resume [HRL-CHECKPOINT]
+python3 train_rl.py test [ARCH] -d [DATASET] --resume [HRL-CHECKPOINT] --gate-type [GATE-TYPE]
 ```
 
 
