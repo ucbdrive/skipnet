@@ -119,18 +119,17 @@ def main():
     if args.cmd == 'train':
         logging.info('start training {}'.format(args.arch))
         run_training(args)
-
     elif args.cmd == 'test':
         logging.info('start evaluating {} with checkpoints from {}'.format(
             args.arch, args.resume))
         test_model(args)
-
     elif args.cmd == 'tune':
         import ray
         import ray.tune as tune
         from ray.tune import Experiment
 
-        tune.register_trainable("run_training", run_training)
+        tune.register_trainable(
+            "run_training", lambda cfg, reporter: run_training(args, cfg, reporter))
         tune.run_experiments(
             Experiment(
                 "train_rl", "run_training",
@@ -276,7 +275,7 @@ def run_training(args, tune_config=None, reporter=None):
                          "({total_rewards.avg: .3f})\t"
                          "Total gate reward {total_gate_reward: .3f}\t"
                          "Total Loss {total_losses.val:.3f} "
-                         "({total_losses.avg:.3f})\t" 
+                         "({total_losses.avg:.3f})\t"
                          "Loss {loss.val:.3f} ({loss.avg:.3f})\t"
                          "Prec@1 {top1.val:.3f} ({top1.avg:.3f})".format(
                             i,
