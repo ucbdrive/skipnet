@@ -145,6 +145,7 @@ def run_training(args, tune_config=None, reporter=None):
     # create model
     model = models.__dict__[args.arch](args.pretrained).cuda()
     model = torch.nn.DataParallel(model).cuda()
+    alpha = tune_config.get("alpha", args.alpha)
 
     # extract gate actions and rewards
     if args.gate_type == 'ff':
@@ -224,7 +225,7 @@ def run_training(args, tune_config=None, reporter=None):
         pred_loss = criterion(output, target_var)
 
         # re-weight gate rewards
-        normalized_alpha = tune_config["alpha"] / len(gate_saved_actions)
+        normalized_alpha = alpha / len(gate_saved_actions)
         # intermediate rewards for each gate
         for act in gate_saved_actions:
             gate_rewards.append((1 - act.float()).data * normalized_alpha)
