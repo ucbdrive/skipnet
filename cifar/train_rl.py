@@ -141,7 +141,7 @@ def main():
         tune.run_experiments(experiment, scheduler=sched)
 
 
-def run_training(args, tune_config=None, reporter=None):
+def run_training(args, tune_config={}, reporter=None):
     # create model
     model = models.__dict__[args.arch](args.pretrained).cuda()
     model = torch.nn.DataParallel(model).cuda()
