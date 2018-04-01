@@ -127,16 +127,18 @@ def main():
         import ray
         import ray.tune as tune
         from ray.tune import Experiment
+        from ray.tune.median_stopping_rule import MedianStoppingRule
 
+        ray.init()
+
+        sched = MedianStoppingRule(
+            time_attr="timesteps_total", reward_attr="neg_mean_loss")
         tune.register_trainable(
             "run_training", lambda cfg, reporter: run_training(args, cfg, reporter))
-        tune.run_experiments(
-            Experiment(
-                "train_rl", "run_training",
-                config={"alpha": tune.gridsearch([0.1, 0.01, 0.001])},
-                args=args
-                )
-            )
+        experiment = Experiment("train_rl", "run_training",
+                                config={"alpha": tune.gridsearch([0.1, 0.01, 0.001])},
+                                args=args)
+        tune.run_experiments(experiment, scheduler=sched)
 
 
 def run_training(args, tune_config=None, reporter=None):
