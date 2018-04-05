@@ -39,7 +39,7 @@ def parse_args():
     # hyper-parameters are from ResNet paper
     parser = argparse.ArgumentParser(
         description='PyTorch CIFAR10 training with gating')
-    parser.add_argument('cmd', choices=['train', 'test'])
+    parser.add_argument('cmd', choices=['train', 'test', 'tune'])
     parser.add_argument('arch', metavar='ARCH',
                         default='cifar10_rnn_gate_rl_38',
                         choices=model_names,
@@ -135,9 +135,9 @@ def main():
             time_attr="timesteps_total", reward_attr="neg_mean_loss")
         tune.register_trainable(
             "run_training", lambda cfg, reporter: run_training(args, cfg, reporter))
-        experiment = Experiment("train_rl", "run_training",
-                                config={"alpha": tune.gridsearch([0.1, 0.01, 0.001])},
-                                args=args)
+        experiment = Experiment("train_rl", "run_training", trial_resources={"gpu": 1},
+                                config={"alpha": tune.grid_search([0.1, 0.01, 0.001])})
+
         tune.run_experiments(experiment, scheduler=sched)
 
 
@@ -402,6 +402,8 @@ def test_model(args):
 
 
 def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
+    if not os.path.exists(os.path.dirname(filename)):
+        os.makedirs(os.path.dirname(filename))
     torch.save(state, filename)
     if is_best:
         save_path = os.path.dirname(filename)
