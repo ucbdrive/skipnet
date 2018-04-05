@@ -142,10 +142,10 @@ def main():
 
 
 def run_training(args, tune_config={}, reporter=None):
+    vars(args).update(tune_config)
     # create model
     model = models.__dict__[args.arch](args.pretrained).cuda()
     model = torch.nn.DataParallel(model).cuda()
-    alpha = tune_config.get("alpha", args.alpha)
 
     # extract gate actions and rewards
     if args.gate_type == 'ff':
@@ -225,11 +225,10 @@ def run_training(args, tune_config={}, reporter=None):
         pred_loss = criterion(output, target_var)
 
         # re-weight gate rewards
-        normalized_alpha = alpha / len(gate_saved_actions)
+        normalized_alpha = args.alpha / len(gate_saved_actions)
         # intermediate rewards for each gate
         for act in gate_saved_actions:
             gate_rewards.append((1 - act.float()).data * normalized_alpha)
-
         # pdb.set_trace()
         # collect cumulative future rewards
         R = - pred_loss.data
@@ -268,7 +267,7 @@ def run_training(args, tune_config={}, reporter=None):
         batch_time.update(time.time() - end)
         end = time.time()
 
-        reporter(timesteps_total=i, neg_mean_loss=losses.val)
+        if reporter: reporter(timesteps_total=i, neg_mean_loss=losses.val)
         # print log
         if i % args.print_freq == 0 or i == (args.iters - 1):
             logging.info("Iter: [{0}/{1}]\t"
