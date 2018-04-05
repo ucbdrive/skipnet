@@ -42,7 +42,7 @@ To evaluate the trained models,  you can download the model checkpoints and
 run the following commands. Take ResNet-110 as an example, 
 
 ```angular2html
-python3 train_rl.py test cifar10_rnn_gate_rl_110 --resume resnet-110-rnn-cifar10.pth.tar
+python3 train_rl.py test cifar10_rnn_gate_rl_110 --resume resnet-110-rnn-cifar10.pth.tar --gate-type rnn
 ```
 
 The expected results are 
