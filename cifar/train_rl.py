@@ -39,7 +39,7 @@ def parse_args():
     # hyper-parameters are from ResNet paper
     parser = argparse.ArgumentParser(
         description='PyTorch CIFAR10 training with gating')
-    parser.add_argument('cmd', choices=['train', 'test'])
+    parser.add_argument('cmd', choices=['train', 'test', 'tune'])
     parser.add_argument('arch', metavar='ARCH',
                         default='cifar10_rnn_gate_rl_38',
                         choices=model_names,
@@ -119,14 +119,28 @@ def main():
     if args.cmd == 'train':
         logging.info('start training {}'.format(args.arch))
         run_training(args)
-
     elif args.cmd == 'test':
         logging.info('start evaluating {} with checkpoints from {}'.format(
             args.arch, args.resume))
         test_model(args)
+    elif args.cmd == 'tune':
+        import ray
+        import ray.tune as tune
+        from ray.tune import Experiment
+        from ray.tune.median_stopping_rule import MedianStoppingRule
+
+        ray.init()
+        sched = MedianStoppingRule(
+            time_attr="timesteps_total", reward_attr="neg_mean_loss")
+        tune.register_trainable(
+            "run_training", lambda cfg, reporter: run_training(args, cfg, reporter))
+        experiment = Experiment("train_rl", "run_training", trial_resources={"gpu": 1},
+                                config={"alpha": tune.grid_search([0.1, 0.01, 0.001])})
+        tune.run_experiments(experiment, scheduler=sched, verbose=False)
 
 
-def run_training(args):
+def run_training(args, tune_config={}, reporter=None):
+    vars(args).update(tune_config)
     # create model
     model = models.__dict__[args.arch](args.pretrained).cuda()
     model = torch.nn.DataParallel(model).cuda()
@@ -213,7 +227,6 @@ def run_training(args):
         # intermediate rewards for each gate
         for act in gate_saved_actions:
             gate_rewards.append((1 - act.float()).data * normalized_alpha)
-        
         # pdb.set_trace()
         # collect cumulative future rewards
         R = - pred_loss.data
@@ -252,6 +265,7 @@ def run_training(args):
         batch_time.update(time.time() - end)
         end = time.time()
 
+        if reporter: reporter(timesteps_total=i, neg_mean_loss=losses.val)
         # print log
         if i % args.print_freq == 0 or i == (args.iters - 1):
             logging.info("Iter: [{0}/{1}]\t"
@@ -261,7 +275,7 @@ def run_training(args):
                          "({total_rewards.avg: .3f})\t"
                          "Total gate reward {total_gate_reward: .3f}\t"
                          "Total Loss {total_losses.val:.3f} "
-                         "({total_losses.avg:.3f})\t" 
+                         "({total_losses.avg:.3f})\t"
                          "Loss {loss.val:.3f} ({loss.avg:.3f})\t"
                          "Prec@1 {top1.val:.3f} ({top1.avg:.3f})".format(
                             i,
@@ -386,6 +400,8 @@ def test_model(args):
 
 
 def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
+    if not os.path.exists(os.path.dirname(filename)):
+        os.makedirs(os.path.dirname(filename))
     torch.save(state, filename)
     if is_best:
         save_path = os.path.dirname(filename)
