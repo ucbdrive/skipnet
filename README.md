@@ -1,11 +1,8 @@
 # SkipNet: Learning Dynamic Routing in Convolutional Networks
 
-This repository contains the code and trained models for the work:
-
-Xin Wang, Fisher Yu, Zi-Yi Dou, Trevor Darrell, Joseph E. Gonzalez
-
-SkipNet: Learning Dynamic Routing in Convolutional Networks [ArXiv](https://arxiv.org/pdf/1711.09485.pdf)
-
+This repository contains the code and trained models for the work:<br/>
+Xin Wang, Fisher Yu, Zi-Yi Dou, Trevor Darrell, Joseph E. Gonzalez<br/>
+SkipNet: Learning Dynamic Routing in Convolutional Networks [ArXiv](https://arxiv.org/pdf/1711.09485.pdf)<br/>
 To be appear in ECCV 2018
 
 SkipNet learns to route images through a subset of layers on a per-input basis. Challenging images are routed through more
