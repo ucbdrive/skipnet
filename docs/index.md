@@ -14,14 +14,14 @@ compression methods. We also qualitatively evaluate the gating policy to reveal 
 relationship between image scale and saliency and the number of layers skipped.
 
 # Workflow
-![](docs/flow.png)
+![](flow.png)
 
 # Key Results
 ## Image Classification
-![](docs/image_classification.png)
+![](image_classification.png)
 
 ## Comparion with other Approaches
-![](docs/comparison.png)
+![](comparison.png)
 
 # Citation
 If you find our work is useful, please consider citing 
