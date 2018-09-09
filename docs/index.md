@@ -13,4 +13,27 @@ datasets and outperforms the state-of-the-art dynamic networks and static
 compression methods. We also qualitatively evaluate the gating policy to reveal a
 relationship between image scale and saliency and the number of layers skipped.
 
+# Workflow
+![](docs/flow.png)
+
+# Key Results
+## Image Classification
+![](docs/image_classification.png)
+
+## Comparion with other Approaches
+![](docs/comparison.png)
+
+# Citation
+If you find our work is useful, please consider citing 
+```
+@InProceedings{Wang_2018_ECCV,
+author = {Wang, Xin and Yu, Fisher and Dou, Zi-Yi and Darrell, Trevor and Gonzalez, Joseph E.},
+title = {SkipNet: Learning Dynamic Routing in Convolutional Networks},
+booktitle = {The European Conference on Computer Vision (ECCV)},
+month = {September},
+year = {2018}
+}
+```
+
+
 
