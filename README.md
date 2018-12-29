@@ -17,7 +17,7 @@ different levels of parameter sharing in the paper.  The model illustrations are
 
 For other details, please refer to the [paper](https://arxiv.org/pdf/1711.09485.pdf).
 
-If you find the code useful for your work, please consider cite
+If you find the code useful for your work, please consider citing
 
 ```
 @inproceedings{wang2018skipnet,
