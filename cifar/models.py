@@ -728,7 +728,7 @@ class ResNetRecurrentGateSP(nn.Module):
                 prev = x = mask.expand_as(x) * x \
                            + (1 - mask).expand_as(prev) * prev
                 gate_feature = getattr(self, 'group{}_gate{}'.format(g+1, i))(x)
-                mask, grob = self.control(gate_feature)
+                mask, gprob = self.control(gate_feature)
                 gprobs.append(gprob)
                 masks.append(mask.squeeze())
 

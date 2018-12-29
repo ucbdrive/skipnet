@@ -4,7 +4,7 @@ This repository contains the code and trained models for the work:<br/>
 ```
 Xin Wang, Fisher Yu, Zi-Yi Dou, Trevor Darrell, Joseph E. Gonzalez
 SkipNet: Learning Dynamic Routing in Convolutional Networks 
-To appear in ECCV 2018
+Published at ECCV 2018
 ```
 
 SkipNet learns to route images through a subset of layers on a per-input basis. Challenging images are routed through more
@@ -15,7 +15,18 @@ different levels of parameter sharing in the paper.  The model illustrations are
   <img src="figs/skipnet_rnn_structure.jpg" width="400" alt="SkipNet with recurrent gates"  /> 
 </p>
 
-For other details, please refer to the [paper](https://arxiv.org/pdf/1711.09485.pdf). 
+For other details, please refer to the [paper](https://arxiv.org/pdf/1711.09485.pdf).
+
+If you find the code useful for your work, please consider cite
+
+```
+@article{wang2018skipnet,
+  title={Skipnet: Learning dynamic routing in convolutional networks},
+  author={Wang, Xin and Yu, Fisher and Dou, Zi-Yi and Darrell, Trevor and Gonzalez, Joseph E},
+  booktitle={ECCV},
+  year={2018}
+}
+``` 
 
 ## Updates 
 * [April 9, 2018] add ray tune for auto hyperparameter search on CIFAR. Thanks [@richardliaw](https://github.com/richardliaw)
