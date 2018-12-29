@@ -20,7 +20,7 @@ For other details, please refer to the [paper](https://arxiv.org/pdf/1711.09485.
 If you find the code useful for your work, please consider cite
 
 ```
-@article{wang2018skipnet,
+@inproceedings{wang2018skipnet,
   title={Skipnet: Learning dynamic routing in convolutional networks},
   author={Wang, Xin and Yu, Fisher and Dou, Zi-Yi and Darrell, Trevor and Gonzalez, Joseph E},
   booktitle={ECCV},
