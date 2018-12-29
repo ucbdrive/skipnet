@@ -20,11 +20,12 @@ For other details, please refer to the [paper](https://arxiv.org/pdf/1711.09485.
 If you find the code useful for your work, please consider citing
 
 ```
-@inproceedings{wang2018skipnet,
-  title={Skipnet: Learning dynamic routing in convolutional networks},
-  author={Wang, Xin and Yu, Fisher and Dou, Zi-Yi and Darrell, Trevor and Gonzalez, Joseph E},
-  booktitle={ECCV},
-  year={2018}
+@InProceedings{Wang_2018_ECCV,
+author = {Wang, Xin and Yu, Fisher and Dou, Zi-Yi and Darrell, Trevor and Gonzalez, Joseph E.},
+title = {SkipNet: Learning Dynamic Routing in Convolutional Networks},
+booktitle = {The European Conference on Computer Vision (ECCV)},
+month = {September},
+year = {2018}
 }
 ``` 
 
