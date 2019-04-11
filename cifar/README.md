@@ -3,7 +3,7 @@
 This folder contains the training code and trained models for original ResNet, SkipNet+SP and SkipNet+HRL+SP. 
 
 ## Prerequisite 
-This code requires `Pytorch 2.0` and for the RL training, we only support single GPU (multi-GPU implementation will be 
+This code requires `Pytorch 0.2.0` and for the RL training, we only support single GPU (multi-GPU implementation will be 
 included in the code for ImageNet). 
 
 To install Pytorch, please refer to the docs at the [Pytorch website](http://pytorch.org/).
