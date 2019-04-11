@@ -4,7 +4,7 @@
 This folder contains the training code for original ResNet, SkipNet+SP and SkipNet+HRL+SP. 
 
 ## Prerequisite 
-We support training with multiple GPUs with Pytorch 3.0. The requirement is the batch size is dividable
+We support training with multiple GPUs with Pytorch 0.3.0. The requirement is the batch size is dividable
 by the number of GPU used.
 
 To install Pytorch, please refer to the docs at the [Pytorch website](http://pytorch.org/).
